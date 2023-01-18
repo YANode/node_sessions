@@ -1,0 +1,40 @@
+<h1>Cart</h1>
+
+{{!-- {{the root parent 'div' on which the event handler is added}} --}}
+<div id="card">
+    {{!-- {{ check: if there are any courses in the cart}} --}}
+    {{#if courses.length}}
+    {{!-- {{display content}} --}}
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each courses}} {{!-- {{iterate the "courses" array}} --}}
+                <tr>
+                    <td>{{title}}</td>
+                    <td>{{count}}</td>
+                    <td>
+                        {{!--'js-remove, data-id = {{id}': for the event handler}} --}}
+                        <button class="btn btn-small js-remove" data-id="{{id}}">Delete</button>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+
+        <p><strong>Price:</strong><span class="price">{{price}}</span></p>
+
+        <form action="/orders" method="POST">
+            <button type="submit" class="btn">Order</button>
+        </form>
+
+    {{else}}
+        <p>Сart is empty</p>
+
+    {{/if}}
+</div>
