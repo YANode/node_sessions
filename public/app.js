@@ -70,3 +70,6 @@ if ($card) {
     });
 
 }
+
+//activate tabs on the 'login' page
+let instance = M.Tabs.init(document.querySelectorAll('.tabs'));//materializecss.com ->components ->tabs ->initialization
