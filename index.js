@@ -7,7 +7,8 @@ const mainRoutes = require('./routs/main');
 const addRoutes = require('./routs/add');
 const coursesRoutes = require('./routs/courses');
 const cardRoutes = require('./routs/card');
-const orderRoutes = require('./routs/orders')
+const orderRoutes = require('./routs/orders');
+const authRoutes = require('./routs/auth');
 const User = require('./models/user');
 
 
@@ -52,6 +53,7 @@ app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/card', cardRoutes);
 app.use('/orders', orderRoutes);
+app.use('/auth', authRoutes);
 
 
 //connected to the mongodb database

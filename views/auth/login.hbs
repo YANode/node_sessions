@@ -1,0 +1,63 @@
+{{!-- {{сreate a login page using mongodb}} --}}
+{{!-- {{ template to display on the screen: materializecss.com -> components -> tabs}} --}}
+<div class="auth">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">{{!-- {{to initialize tab in public/app.js}} --}}
+                <li class="tab col s6"><a class="active" href="#login">Login</a></li>
+                <li class="tab col s6"><a  href="#register">Register</a></li>
+            </ul>
+        </div>
+        <div>
+            <div id="login" class="col s6 offset-s3">
+
+                {{!-- {{form on tabs'login'}} --}}
+                <form action="/add" method="post">
+                    <h1>Sing in</h1>
+                    <div class="input-field">
+                        <input id="email" name="email" type="email" class="validate" required>
+                        <label for="email">Email</label>
+                        <span class="helper-text" data-error="enter email"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input id="password" name="password" type="password" class="validate" required>
+                        <label for="password">Password</label>
+                        <span class="helper-text" data-error="enter password"></span>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+
+
+            </div>
+            <div id="register" class="col s6 offset-s3">
+
+                {{!-- {{form on tabs'register'}} --}}
+                <h1>Create an account</h1>
+                <form action="/add" method="post">
+                    <div class="input-field">
+                        <input id="remail" name="email" type="email" class="validate" required>
+                        <label for="remail">Email</label>
+                        <span class="helper-text" data-error="enter email"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input id="rpassword" name="password" type="password" class="validate" required>
+                        <label for="rpassword">Password</label>
+                        <span class="helper-text" data-error="enter password"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input id="confirm" name="confirm" type="password" class="validate" required>
+                        <label for="confirm">Password</label>
+                        <span class="helper-text" data-error="enter password again"></span>
+                    </div>
+
+                   <button class="btn btn-primary" type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

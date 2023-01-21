@@ -37,6 +37,12 @@
                 <li><a href="/orders">Orders</a></li>
             {{/if}}
 
+            {{#if isLogin}}
+                <li class="active"><a href="/auth/login#login">Login</a></li>{{!-- {{'#login' -> tab login is activ}} --}}
+            {{else}}
+                <li><a href="/auth/login#login">Login</a></li>
+            {{/if}}
+
         </ul>
     </div>
 </nav>
