@@ -14,6 +14,7 @@ const User = require('./models/user');
 const varMiddleware = require('./middleware/variables');//connect our middleware from the 'widdleware/variables.js' file
 
 
+
 //from version 4.6.0 on,  Handlebars used:
 // terminal: npm install @handlebars/allow-prototype-access
 //  terminal: npm install express-handlebars
@@ -34,16 +35,17 @@ app.set('view engine', 'hbs');
 app.set('views', 'views');
 
 //proprietary middleware at the application level - processing without mounted path
-app.use(async(req,res, next) => { //is performed whenever a request is received by the application
+/*app.use(async(req,res, next) => { //is performed whenever a request is received by the application
     try {
         const user = await User.findById('63b6ce9979fea6f9f6cd5687');//_id user from mongodb
         req.user = user;
+        console.log('Error index.js =>', user)
         next();
     } catch (e) {
         console.log(e);
     }
+})*/
 
-} )
 
 
 
@@ -55,7 +57,7 @@ app.use(express.urlencoded({extended: true}));
 
 //set up middleware 'express-sessions', to access the req.session object and store data within the session
 app.use(session({
-    secret:'some secret value',//secret key
+    secret:'some secret value',//session encryption key
     resave: false, //you need to re-save the session to the repository
     saveUninitialized: false //if 'true', empty sessions will go into the repository
 }));
@@ -83,7 +85,7 @@ async function start() {
             // useFindAndModify: false
         });
 
-       //find one user in the mongodb database
+       /*//find one user in the mongodb database
         const candidate = await User.findOne();
 
            if (!candidate) { //if there are no users in the mongodb database
@@ -95,7 +97,7 @@ async function start() {
             });
             //saved the user
             await user.save();
-        }
+        }*/
 
 
         app.listen(PORT, () => {
