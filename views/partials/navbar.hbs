@@ -4,7 +4,6 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
 
             {{!-- {{add menu items to the navigation bar}} --}}
-
             {{#if isMain}}
                 <li class="active"><a href="/">Main</a></li>
             {{else}}
@@ -17,31 +16,38 @@
                 <li><a href="/courses">Courses</a></li>
             {{/if}}
 
-            {{#if isAdd}}
-                <li class="active"><a href="/add">Add Course</a></li>
+
+            {{!-- {{if isAuth(from variables.js)-'true' -> show tabs Add, Card, Order }} --}}
+            {{#if isAuth}}
+                {{#if isAdd}}
+                    <li class="active"><a href="/add">Add Course</a></li>
+                {{else}}
+                    <li><a href="/add">Add Course</a></li>
+                {{/if}}
+                {{!-- {{added a link to the map}} --}}
+                {{#if isCard}}
+                    <li class="active"><a href="/card">Cart</a></li>
+                {{else}}
+                    <li><a href="/card">Cart</a></li>
+                {{/if}}
+
+                {{#if isOrder}}
+                    <li class="active"><a href="/orders">Orders</a></li>
+                {{else}}
+                    <li><a href="/orders">Orders</a></li>
+                {{/if}}
+
+                     <li><a href="/auth/logout">Logout</a></li>
+
             {{else}}
-                <li><a href="/add">Add Course</a></li>
+                {{#if isLogin}}
+                    <li class="active"><a href="/auth/login#login">Login</a></li>{{!-- {{'#login' -> tab login is activ}} --}}
+
+                {{else}}
+                    <li><a href="/auth/login#login">Login</a></li>
+                {{/if}}
             {{/if}}
 
-
-            {{!-- {{added a link to the map}} --}}
-            {{#if isCard}}
-                <li class="active"><a href="/card">Cart</a></li>
-            {{else}}
-                <li><a href="/card">Cart</a></li>
-            {{/if}}
-
-            {{#if isOrder}}
-                <li class="active"><a href="/orders">Orders</a></li>
-            {{else}}
-                <li><a href="/orders">Orders</a></li>
-            {{/if}}
-
-            {{#if isLogin}}
-                <li class="active"><a href="/auth/login#login">Login</a></li>{{!-- {{'#login' -> tab login is activ}} --}}
-            {{else}}
-                <li><a href="/auth/login#login">Login</a></li>
-            {{/if}}
 
         </ul>
     </div>

@@ -11,8 +11,9 @@
         <div>
             <div id="login" class="col s6 offset-s3">
 
-                {{!-- {{form on tabs'login'}} --}}
-                <form action="/add" method="post">
+                {{!-- {{form on tabs 'login'}} --}}
+                {{!-- {{'form' - defines the address where the form is sent }} --}}
+                <form action="/auth/login" method="post">
                     <h1>Sing in</h1>
                     <div class="input-field">
                         <input id="email" name="email" type="email" class="validate" required>
@@ -33,9 +34,9 @@
             </div>
             <div id="register" class="col s6 offset-s3">
 
-                {{!-- {{form on tabs'register'}} --}}
+                {{!-- {{form on tabs 'register'}} --}}
                 <h1>Create an account</h1>
-                <form action="/add" method="post">
+                <form action="/auth/register" method="post">
                     <div class="input-field">
                         <input id="remail" name="email" type="email" class="validate" required>
                         <label for="remail">Email</label>

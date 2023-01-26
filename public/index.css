@@ -39,3 +39,7 @@
 .auth{
     padding-top: 1rem;
 }
+
+.auth h1 {
+    font-size: xxx-large;
+}
