@@ -3,6 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');//import the 'mongoose' module
 const app = express();//application object express
 const session = require('express-session');//connect the 'express-sessions' middleware
+//created a MongoStore class, obligatory after connecting express-session
+const MongoStore = require('connect-mongodb-session')(session);//will synchronise the express-session with the Mongo session
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routs/main');
 const addRoutes = require('./routs/add');
@@ -26,40 +28,35 @@ const hbs = exphbs.create({
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(Handlebars) //from version 4.6.0 on,  Handlebars used
 })
+const MONGODB_URI = `mongodb+srv://anode:bOKT2JLZavt6zpY3@cluster0.o5pllfj.mongodb.net/shop`;/*cloud.mongodb.com ->Database Deployments->
+                                                                                            connect-> connect your application*/
 
-
+//create a new instance of the class MongoStore
+const store = new MongoStore ({
+    collection: 'sessions',// the place where the sessions are stored
+    uri: MONGODB_URI// url database
+})
 
 // View engine
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
-//proprietary middleware at the application level - processing without mounted path
-/*app.use(async(req,res, next) => { //is performed whenever a request is received by the application
-    try {
-        const user = await User.findById('63b6ce9979fea6f9f6cd5687');//_id user from mongodb
-        req.user = user;
-        console.log('Error index.js =>', user)
-        next();
-    } catch (e) {
-        console.log(e);
-    }
-})*/
-
-
-
 
 //set up a static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 //set up middleware 'urlencoded'
 app.use(express.urlencoded({extended: true}));
+
 
 //set up middleware 'express-sessions', to access the req.session object and store data within the session
 app.use(session({
     secret:'some secret value',//session encryption key
     resave: false, //you need to re-save the session to the repository
-    saveUninitialized: false //if 'true', empty sessions will go into the repository
+    saveUninitialized: false, //if 'true', empty sessions will go into the repository
+    store:store
 }));
 
 //set up 'varMiddleware'
@@ -79,26 +76,10 @@ app.use('/auth', authRoutes);
 async function start() {
     try {
         mongoose.set('strictQuery', true);
-        const url = `mongodb+srv://anode:bOKT2JLZavt6zpY3@cluster0.o5pllfj.mongodb.net/shop`//cloud.mongodb.com
-        await mongoose.connect(url, {
+        await mongoose.connect(MONGODB_URI, {
             useNewUrlParser: true,
             // useFindAndModify: false
         });
-
-       /*//find one user in the mongodb database
-        const candidate = await User.findOne();
-
-           if (!candidate) { //if there are no users in the mongodb database
-            //locally create a new user
-            const user = new User({
-                email: 'ANode@gmail.com',
-                name: 'ANode',
-                cart: {items: []} //cart is empty
-            });
-            //saved the user
-            await user.save();
-        }*/
-
 
         app.listen(PORT, () => {
             console.log(`Server is running or port ${PORT}`)
