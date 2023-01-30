@@ -24,16 +24,31 @@ router.get('/logout', async (req, res) => {
 
 //post request processing on login tab
 router.post('/login', async (req, res) => {
-    //temporarily, when executing the request, assign an id from mongodb to the user
-    const user = await User.findById('63b6ce9979fea6f9f6cd5687');//_id user from mongodb
-    req.session.user = user;
-    req.session.isAuthenticated = true; // isAuthenticated is true, if you are logged in
-    req.session.save(err => {
-        if (err) {
-            throw err
+    try {
+        const {email, password} = req.body;
+        const candidate = await User.findOne({email}); //email is a unique
+
+        if (candidate) {
+            const areSame = password === candidate.password;
+            if (areSame) {
+                req.session.user = candidate;
+                req.session.isAuthenticated = true; // isAuthenticated is true, if you are logged in
+                req.session.save(err => {
+                    if (err) {
+                        throw err
+                    }
+                    res.redirect('/');
+                })
+
+            } else {
+                res.redirect('/auth/login#login');
+            }
+        } else {
+            res.redirect('/auth/login#login');
         }
-        res.redirect('/');
-    })
+    } catch (e) {
+        console.log(e);
+    }
 })
 
 //registering a new user
@@ -45,7 +60,7 @@ router.post('/register', async (req, res) => {
             res.redirect('/auth/login#login');
         } else {
             //if the user with this email address is not registered
-            const user = new User ({
+            const user = new User({
                 email: email,
                 name: name,
                 password: password,
@@ -54,11 +69,9 @@ router.post('/register', async (req, res) => {
             await user.save();
             res.redirect('/auth/login#login');
         }
-
     } catch (e) {
         console.log(e)
     }
-
 })
 
 
