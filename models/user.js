@@ -8,8 +8,11 @@ const userSchema = new Schema({
         required: true  //field is mandatory
     },
     name: {
+        type: String
+    },
+    password: {
         type: String,
-        required: true //field is mandatory
+        required: true//field is mandatory
     },
     cart: {
         items: [ //purchase items
