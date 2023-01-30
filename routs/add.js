@@ -4,7 +4,9 @@ const router = Router();
 //refactoring: leave the 'Course' model unchanged
 const Course = require('../models/course');
 
-router.get('/', (req, res) => {
+const auth = require('../middleware/auth');
+
+router.get('/', auth, (req, res) => {
     res.render('add', {
         title: 'Add new course',
         isAdd: true
@@ -12,7 +14,7 @@ router.get('/', (req, res) => {
 })
 
 //middleware at the route level - creating a new course
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     //refactoring: const course = new Course(req.body.title, req.body.price, req.body.img);
     const course = new Course({

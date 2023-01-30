@@ -1,10 +1,12 @@
 //get the router object from the library
 const {Router} = require('express');
 const router = Router();
-const Order = require('../models/order');//import the Order model,
+const Order = require('../models/order');//import the Order model
+const auth = require('../middleware/auth');
 
-// route to order formation data
-router.get('/', async (req, res) => {
+
+//route to order formation data, getting a list of orders
+router.get('/', auth, async (req, res) => {
     try {
         // get a list of all orders that match user_id
         const orders = await Order.find({
@@ -12,8 +14,6 @@ router.get('/', async (req, res) => {
         })
             .populate('user.userId')//fetching all content from the 'userId' database to the specified path
 
-
-        console.log('orders.courses=>', orders.courses)
         res.render('orders', {
             title: 'Orders', // seo-title the tab
             isOrder: true, // active link to the page navbar.hbs
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 
 
 //middleware at the route level - creating new order
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
         const user = await req.user//get user
             .populate('cart.items.courseId')//fetching all content from the 'courseId' database to the specified path
