@@ -14,7 +14,7 @@ const orderRoutes = require('./routs/orders');
 const authRoutes = require('./routs/auth');
 const User = require('./models/user');
 const varMiddleware = require('./middleware/variables');//connect our middleware from the 'widdleware/variables.js' file
-
+const userMiddleware = require('./middleware/user');//connect our middleware from the 'widdleware/user.js'
 
 
 //from version 4.6.0 on,  Handlebars used:
@@ -61,6 +61,9 @@ app.use(session({
 
 //set up 'varMiddleware'
 app.use(varMiddleware);
+
+//set up 'userMiddleware'
+app.use(userMiddleware);
 
 
 //router registration
