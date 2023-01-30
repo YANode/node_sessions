@@ -2,7 +2,9 @@ const {Router} = require('express'); //var express = require('express');
 const router = Router();            //var router = express.Router();
 const Course = require('../models/course');//connect the "course.js" course creation model
 
-// content of the home page download by link
+const auth = require('../middleware/auth');
+
+//content of the home page download by link, course list view
 router.get('/', async (req, res) => {
 
     // refactoring: const courses = await Course.getAll() - to retrieve data read from getAll()
@@ -21,8 +23,8 @@ router.get('/', async (req, res) => {
 })
 
 
-//loading the contents of the 'edit' page by id
-router.get('/:id/edit', async (req, res) => {
+//edit and load the contents of the 'edit' page by id
+router.get('/:id/edit', auth, async (req, res) => {
     if (!req.query.allow) {
         return res.redirect('/')
     }
@@ -38,7 +40,7 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 // the 'remove' event, that we get from the client when the 'Delete course' button is pressed
-router.post('/remove', async (req, res) => {
+router.post('/remove', auth, async (req, res) => {
    try {
        await Course.deleteOne({ _id: req.body.id });
        return res.redirect('/courses');
@@ -51,7 +53,7 @@ router.post('/remove', async (req, res) => {
 
 
 // сhanged the data in the server database
-router.post('/edit', async (req, res) => {
+router.post('/edit', auth, async (req, res) => {
 
     //refactoring: await Course.update(req.body)
     //mongoose sets '_id', let's get rid of '_'

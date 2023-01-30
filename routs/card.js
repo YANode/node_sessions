@@ -5,6 +5,8 @@ const router = Router();
 //connect the Card model, Course model
 const Course = require('../models/course');
 
+const auth = require('../middleware/auth');
+
 //return the data on all courses in the cart without meta
 function mapCartItems(cart) {
     return cart.items.map(c => ({//iteration of all courses in the cart
@@ -24,8 +26,8 @@ function computePrice(courses) {
 
 }
 
-//sending data to the server
-router.post('/add', async (req, res) => {
+//sending data to the server, added course to cart
+router.post('/add', auth, async (req, res) => {
     //refactoring: const course = await Course.getById(req.body.id)
     const course = await Course.findById(req.body.id);
     // refactoring: await Card.add(course) => added 'course' in the cart
@@ -33,8 +35,8 @@ router.post('/add', async (req, res) => {
     res.redirect('/card')//redirecting the response
 })
 
-//add a route to the Router object
-router.get('/', async (req, res) => {
+//add a route to the Router object, exit to cart page
+router.get('/', auth, async (req, res) => {
 
     /*refactoring:   const card = await Card.fetch();
                      res.render('card', {
@@ -56,8 +58,8 @@ router.get('/', async (req, res) => {
     })
 })
 
-
-router.delete('/remove/:id', async (req, res) => { //read the id of the 'course' to be deleted
+//removed course from cart
+router.delete('/remove/:id', auth, async (req, res) => { //read the id of the 'course' to be deleted
     /*refactoring: const card = await Card.remove(req.params.id); //update the 'card' object with the received id*/
     await req.user.removeFromCart(req.params.id);
 
