@@ -2,7 +2,9 @@
 const {Router} = require('express');//const express = require('express');
 //get the router object from the library
 const router = Router();//const router = express.Router();
+const bcrypt = require('bcryptjs');//provides encryption
 const User = require('../models/user');
+
 
 
 // content of the login page download by link
@@ -29,7 +31,8 @@ router.post('/login', async (req, res) => {
         const candidate = await User.findOne({email}); //email is a unique
 
         if (candidate) {
-            const areSame = password === candidate.password;
+            //compare the entered password ->'password+hash' with the candidate.password in the database ->'hash'
+            const areSame = await bcrypt.compare(password, candidate.password);
             if (areSame) {
                 req.session.user = candidate;
                 req.session.isAuthenticated = true; // isAuthenticated is true, if you are logged in
@@ -60,10 +63,11 @@ router.post('/register', async (req, res) => {
             res.redirect('/auth/login#login');
         } else {
             //if the user with this email address is not registered
+            const hashPassword = await bcrypt.hash(password, 10);
             const user = new User({
                 email: email,
                 name: name,
-                password: password,
+                password: hashPassword,
                 cart: {items: []}
             });
             await user.save();
