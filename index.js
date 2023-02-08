@@ -1,10 +1,13 @@
 const express = require('express');
 const path = require('path');
+const csrf = require('csurf');
 const mongoose = require('mongoose');//import the 'mongoose' module
 const app = express();//application object express
 const session = require('express-session');//connect the 'express-sessions' middleware
 //created a MongoStore class, obligatory after connecting express-session
 const MongoStore = require('connect-mongodb-session')(session);//will synchronise the express-session with the Mongo session
+
+
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routs/main');
 const addRoutes = require('./routs/add');
@@ -32,7 +35,7 @@ const MONGODB_URI = `mongodb+srv://anode:bOKT2JLZavt6zpY3@cluster0.o5pllfj.mongo
                                                                                             connect-> connect your application*/
 
 //create a new instance of the class MongoStore
-const store = new MongoStore ({
+const store = new MongoStore({
     collection: 'sessions',// the place where the sessions are stored
     uri: MONGODB_URI// url database
 })
@@ -51,6 +54,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 
 
+
+
 //set up middleware 'express-sessions', to access the req.session object and store data within the session
 app.use(session({
     secret:'some secret value',//session encryption key
@@ -58,6 +63,10 @@ app.use(session({
     saveUninitialized: false, //if 'true', empty sessions will go into the repository
     store:store
 }));
+
+app.use(csrf());
+
+
 
 //set up 'varMiddleware'
 app.use(varMiddleware);

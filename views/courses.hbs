@@ -23,6 +23,10 @@
                             <a href="/courses/{{id}}/edit?allow=true">Edit</a>
                             {{!-- {{a button to delete the course }} --}}
                             <form action="/card/add" method="POST">
+
+                                {{!-- {{middleware/variables.js -> "csrf" variable - add to post request: checks for 'token }} --}}
+                                <input type="hidden" name="_csrf" value="{{@root.csrf}}">
+
                                 <input type="hidden" name="id" value="{{id}}">
                                 <button type="submit" class="btn btn-primary">Buy</button>
                             </form>
