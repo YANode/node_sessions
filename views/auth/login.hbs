@@ -5,7 +5,7 @@
         <div class="col s12">
             <ul class="tabs">{{!-- {{to initialize tab in public/app.js}} --}}
                 <li class="tab col s6"><a class="active" href="#login">Login</a></li>
-                <li class="tab col s6"><a  href="#register">Register</a></li>
+                <li class="tab col s6"><a href="#register">Register</a></li>
             </ul>
         </div>
         <div>
@@ -26,6 +26,9 @@
                         <label for="password">Password</label>
                         <span class="helper-text" data-error="enter password"></span>
                     </div>
+
+                    {{!-- {{middleware/variables.js -> "csrf" variable - add to post request: checks for 'token }} --}}
+                    <input type="hidden" name="_csrf" value="{{csrf}}">
 
                     <button class="btn btn-primary" type="submit">Login</button>
                 </form>
@@ -61,7 +64,11 @@
                         <span class="helper-text" data-error="enter password again"></span>
                     </div>
 
-                   <button class="btn btn-primary" type="submit">Register</button>
+
+                    {{!-- {{middleware/variables.js -> "csrf" variable - add to post request: checks for 'token }} --}}
+                    <input type="hidden" name="_csrf" value="{{csrf}}">
+
+                    <button class="btn btn-primary" type="submit">Register</button>
                 </form>
             </div>
         </div>

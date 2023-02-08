@@ -36,10 +36,15 @@ if ($card) {
     $card.addEventListener('click', event => {
         if (event.target.classList.contains('js-remove')) {
             const id = event.target.dataset.id;
+            const csrf = event.target.dataset.csrf;//read the 'csrf' attribute from views/card.hbs -> button delete
 
+            //delete the course when the button is pressed
             //read an ajax-requestres
             fetch('/card/remove/' + id, {
-                method: 'delete'
+               method: 'delete',
+               headers: {
+                    'X-XSRF-TOKEN': csrf  //send the token in a configurable HTTP header
+               }
             }).then(res => res.json())
                 .then(card => { // got the cart object
                     if (card.courses.length) {
