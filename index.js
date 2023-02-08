@@ -6,8 +6,7 @@ const app = express();//application object express
 const session = require('express-session');//connect the 'express-sessions' middleware
 //created a MongoStore class, obligatory after connecting express-session
 const MongoStore = require('connect-mongodb-session')(session);//will synchronise the express-session with the Mongo session
-
-
+const flash = require('connect-flash');//error transport using a session
 const PORT = process.env.PORT || 3000;
 const mainRoutes = require('./routs/main');
 const addRoutes = require('./routs/add');
@@ -54,8 +53,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 
 
-
-
 //set up middleware 'express-sessions', to access the req.session object and store data within the session
 app.use(session({
     secret:'some secret value',//session encryption key
@@ -65,7 +62,7 @@ app.use(session({
 }));
 
 app.use(csrf());
-
+app.use(flash());
 
 
 //set up 'varMiddleware'

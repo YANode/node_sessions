@@ -11,6 +11,13 @@
         <div>
             <div id="login" class="col s6 offset-s3">
 
+
+
+                {{!-- {{if there is an loginError object(in router/auth.js) -> output the error}} --}}
+                {{#if loginError}}
+                    <p class="alert">{{loginError}}</p>
+                {{/if}}
+
                 {{!-- {{form on tabs 'login'}} --}}
                 {{!-- {{'form' - defines the address where the form is sent }} --}}
                 <form action="/auth/login" method="post">
@@ -36,6 +43,12 @@
 
             </div>
             <div id="register" class="col s6 offset-s3">
+
+
+                {{!-- {{if there is an registerError object(in router/auth.js) -> output the error}} --}}
+                {{#if registerError}}
+                    <p class="alert">{{registerError}}</p>
+                {{/if}}
 
                 {{!-- {{form on tabs 'register'}} --}}
                 <h1>Create an account</h1>
